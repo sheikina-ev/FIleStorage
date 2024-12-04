@@ -1,0 +1,118 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FIleStorage.Views.UserProfile"
+             Title="UserProfile"
+             BackgroundColor="#1E1E1E">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <VerticalStackLayout HorizontalOptions="Center" Spacing="20">
+                <!-- Используем Grid для наложения тени на изображение -->
+                <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                    <!-- Тень (BoxView) -->
+                    <BoxView Color="#E4A3BC"
+                 Opacity="0.3"
+                 CornerRadius="50"
+                 HeightRequest="110"
+                 WidthRequest="110"
+                 HorizontalOptions="Center"
+                 VerticalOptions="Center" 
+                 Margin="5"/>
+
+                    <!-- Изображение -->
+                    <Image Source="ghost_avatar.png"
+               HeightRequest="100"
+               WidthRequest="100"
+               Aspect="AspectFit"
+               HorizontalOptions="Center"
+               VerticalOptions="Center" />
+                </Grid>
+
+                <!-- Заменим "Имя_Пользователя" на настоящее имя -->
+                <Label x:Name="UsernameLabel"
+           FontSize="20"
+           FontAttributes="Bold"
+           TextColor="White"
+           HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+
+
+
+            <!-- Используем Grid для разделения элементов на две части -->
+            <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto">
+                <!-- Текст "Данные пользователя" слева -->
+                <Label Text="Данные пользователя"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="#A4A4A4"
+                       VerticalTextAlignment="Center"
+                       HorizontalOptions="StartAndExpand" />
+
+                <!-- Кнопка "Изменить" справа -->
+                <HorizontalStackLayout Spacing="5" VerticalOptions="Center" HorizontalOptions="End">
+                    <ImageButton Source="edit_icon.png"
+                                 HeightRequest="20"
+                                 WidthRequest="20"
+                                 BackgroundColor="Transparent" />
+                    <Button Text="Изменить"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            TextColor="#A4A4A4"
+                            BackgroundColor="Transparent"
+                            VerticalOptions="Center"
+                            HorizontalOptions="End"
+                            Clicked="OnEditButtonClicked" />
+                </HorizontalStackLayout>
+            </Grid>
+
+            <!-- Поля для Username и Email -->
+            <VerticalStackLayout Spacing="15">
+                <Frame BackgroundColor="#1E1E1E" CornerRadius="15" Padding="10" HasShadow="False">
+                    <HorizontalStackLayout>
+                        <Image Source="user_icon.png"
+                               WidthRequest="24"
+                               HeightRequest="24"
+                               Margin="0,0,10,0"
+                               VerticalOptions="Center" />
+                        <Entry x:Name="UsernameEntry"
+                               Placeholder="Введите имя пользователя"
+                               IsReadOnly="True"
+                               PlaceholderColor="#888888"
+                               TextColor="#FFFFFF"
+                               FontSize="16"
+                               HorizontalOptions="FillAndExpand"
+                               VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </Frame>
+
+                <Frame BackgroundColor="#1E1E1E" CornerRadius="15" Padding="10" HasShadow="False">
+                    <HorizontalStackLayout>
+                        <Image Source="email_icon.png"
+                               WidthRequest="24"
+                               HeightRequest="24"
+                               Margin="0,0,10,0"
+                               VerticalOptions="Center" />
+                        <Entry x:Name="EmailEntry"
+                               Placeholder="yourname@gmail.com"
+                               IsReadOnly="True"
+                               PlaceholderColor="#888888"
+                               TextColor="#FFFFFF"
+                               FontSize="16"
+                               HorizontalOptions="FillAndExpand"
+                               VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+
+            <!-- Раздел файлов -->
+            <Label Text="Файлы пользователя"
+                   FontSize="16"
+                   FontAttributes="Bold"
+                   TextColor="#A4A4A4"
+                   Margin="0,30,0,0"
+                   HorizontalTextAlignment="Center" />
+
+            <Grid x:Name="FilesGrid" ColumnSpacing="10" RowSpacing="10" Padding="10" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

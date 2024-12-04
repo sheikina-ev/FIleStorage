@@ -1,0 +1,133 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FIleStorage.Views.UserProfilePage"
+             Title="Профиль пользователя"
+             BackgroundColor="#1E1E1E">
+
+    <ScrollView>
+        <Grid Padding="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100" />
+                <!-- Отступ для аватара -->
+                <RowDefinition Height="Auto" />
+                <!-- Аватар -->
+                <RowDefinition Height="Auto" />
+                <!-- Заголовок Профиль -->
+                <RowDefinition Height="73" />
+                <!-- Отступ перед полями -->
+                <RowDefinition Height="Auto" />
+                <!-- Поля ввода -->
+                <RowDefinition Height="Auto" />
+                <!-- Сообщение об ошибке -->
+                <RowDefinition Height="Auto" />
+                <!-- Кнопка обновить -->
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Аватар -->
+            <Image Source="user_avatar_placeholder.png"
+                   HeightRequest="80"
+                   HorizontalOptions="Center"
+                   Grid.Row="1" />
+
+            <!-- Заголовок -->
+            <Label Text="Профиль пользователя"
+                   FontSize="24"
+                   TextColor="White"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   Grid.Row="2"
+                   Margin="0,10,0,0" />
+
+            <!-- Поля для имени, логина и email -->
+            <StackLayout Grid.Row="4" Spacing="15">
+                <!-- Поле Имя -->
+                <Frame BackgroundColor="#333333" CornerRadius="10" Padding="0" HasShadow="False" HeightRequest="50">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Image Source="name_icon.png"
+                               WidthRequest="20"
+                               HeightRequest="20"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center" 
+                               Grid.Column="0" />
+                        <Entry x:Name="NameEntry"
+                               Placeholder="Введите имя"
+                               PlaceholderColor="#888888"
+                               TextColor="White"
+                               Margin="0,0,10,0"
+                               Grid.Column="1" />
+                    </Grid>
+                </Frame>
+
+                <!-- Поле Логин -->
+                <Frame BackgroundColor="#333333" CornerRadius="10" Padding="0" HasShadow="False" HeightRequest="50">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Image Source="user_icon.png"
+                               WidthRequest="20"
+                               HeightRequest="20"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center" 
+                               Grid.Column="0" />
+                        <Entry x:Name="UsernameEntry"
+                               IsReadOnly="True"
+                               Placeholder="Логин"
+                               PlaceholderColor="#888888"
+                               TextColor="#888888"
+                               Margin="0,0,10,0"
+                               Grid.Column="1" />
+                    </Grid>
+                </Frame>
+
+                <!-- Поле Email -->
+                <Frame BackgroundColor="#333333" CornerRadius="10" Padding="0" HasShadow="False" HeightRequest="50">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Image Source="email_icon.png"
+                               WidthRequest="20"
+                               HeightRequest="20"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center" 
+                               Grid.Column="0" />
+                        <Entry x:Name="EmailEntry"
+                               Placeholder="Введите Email"
+                               PlaceholderColor="#888888"
+                               TextColor="White"
+                               Margin="0,0,10,0"
+                               Grid.Column="1" />
+                    </Grid>
+                </Frame>
+            </StackLayout>
+
+            <!-- Сообщение об ошибке -->
+            <Label x:Name="ErrorLabel"
+                   TextColor="Red"
+                   FontSize="12"
+                   IsVisible="False"
+                   Grid.Row="5"
+                   HorizontalOptions="Center"
+                   Margin="0,10,0,0" />
+
+            <!-- Кнопка обновить -->
+            <Button Grid.Row="6"
+                    Text="Сохранить изменения"
+                    BackgroundColor="#FF0055"
+                    TextColor="White"
+                    CornerRadius="25"
+                    HeightRequest="50"
+                    FontAttributes="Bold"
+                    Margin="0,20,0,0"
+                    Clicked="OnUpdateButtonClicked" />
+        </Grid>
+    </ScrollView>
+</ContentPage>
