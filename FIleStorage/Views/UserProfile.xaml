@@ -28,7 +28,7 @@
                VerticalOptions="Center" />
                 </Grid>
 
-                <!-- Заменим "Имя_Пользователя" на настоящее имя -->
+                <!--  "Имя_Пользователя" -->
                 <Label x:Name="UsernameLabel"
            FontSize="20"
            FontAttributes="Bold"
@@ -36,11 +36,8 @@
            HorizontalTextAlignment="Center" />
             </VerticalStackLayout>
 
-
-
-            <!-- Используем Grid для разделения элементов на две части -->
             <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto">
-                <!-- Текст "Данные пользователя" слева -->
+                <!--  "Данные пользователя"  -->
                 <Label Text="Данные пользователя"
                        FontSize="14"
                        FontAttributes="Bold"
@@ -48,7 +45,7 @@
                        VerticalTextAlignment="Center"
                        HorizontalOptions="StartAndExpand" />
 
-                <!-- Кнопка "Изменить" справа -->
+                <!-- "Изменить" -->
                 <HorizontalStackLayout Spacing="5" VerticalOptions="Center" HorizontalOptions="End">
                     <ImageButton Source="edit_icon.png"
                                  HeightRequest="20"

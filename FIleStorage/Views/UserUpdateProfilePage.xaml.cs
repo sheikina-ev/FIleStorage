@@ -4,38 +4,41 @@ using System.Text.Json;
 
 namespace FIleStorage.Views;
 
-public partial class UserProfilePage : ContentPage
+public partial class UserUpdateProfilePage : ContentPage
 {
     private readonly User _user;
     private readonly string _token;
     private readonly HttpClient _httpClient;
 
-    public UserProfilePage(User user, string token)
+    public UserUpdateProfilePage(User user, string token)
     {
         InitializeComponent();
-
-        _user = user; 
-        _token = token; 
+        _user = user;
+        _token = token;
         _httpClient = new HttpClient();
 
-        LoadUserProfile(); 
+        LoadUserProfile();
     }
 
     private void LoadUserProfile()
     {
         NameEntry.Text = _user.Name;
+        SurnameEntry.Text = _user.Surname;
         UsernameEntry.Text = _user.Username;
         EmailEntry.Text = _user.Email;
+        PhoneEntry.Text = string.IsNullOrEmpty(_user.Phone) ? "" : _user.Phone;
+        UsernameLabel.Text = _user.Username;
     }
 
     private async void OnUpdateButtonClicked(object sender, EventArgs e)
     {
         try
         {
-            _user.Name = NameEntry.Text; // Обновляем имя
-            _user.Email = EmailEntry.Text; // Обновляем email
+            _user.Name = NameEntry.Text;
+            _user.Surname = SurnameEntry.Text;
+            _user.Email = EmailEntry.Text;
+            _user.Phone = PhoneEntry.Text;
 
-            // Отправляем данные на сервер
             var success = await UpdateUserProfileAsync();
 
             if (success)
@@ -58,20 +61,15 @@ public partial class UserProfilePage : ContentPage
     {
         try
         {
-            // Формируем JSON-запрос
             var jsonContent = new StringContent(JsonSerializer.Serialize(_user), Encoding.UTF8, "application/json");
-
-            // Добавляем токен в заголовок
             _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _token);
 
-            
             var response = await _httpClient.PostAsync("http://course-project-4/api/profile", jsonContent);
-
             return response.IsSuccessStatusCode;
         }
         catch
         {
-            return false; 
+            return false;
         }
     }
 }

@@ -3,6 +3,8 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
+using FIleStorage.Views;
+
 
 
 namespace FIleStorage.Views
@@ -31,9 +33,11 @@ namespace FIleStorage.Views
 
 
         // Метод для обработки нажатия кнопки "Изменить"
-        private void OnEditButtonClicked(object sender, EventArgs e)
+        private async void OnEditButtonClicked(object sender, EventArgs e)
         {
-          
+            // Переход на страницу обновления профиля
+            await Navigation.PushAsync(new UserUpdateProfilePage(_user, _token));
         }
+
     }
 }
