@@ -1,75 +1,141 @@
 using FIleStorage.Models;
-using System.Text;
+using System.Net.Http;
 using System.Text.Json;
+using System.Threading.Tasks;
+using Microsoft.Maui.Controls;
+using System.Text;
+using System.Net.Http.Headers;
+using System.Text.Json.Serialization;
 
-namespace FIleStorage.Views;
-
-public partial class UserUpdateProfilePage : ContentPage
+namespace FIleStorage.Views
 {
-    private readonly User _user;
-    private readonly string _token;
-    private readonly HttpClient _httpClient;
-
-    public UserUpdateProfilePage(User user, string token)
+    public partial class UserUpdateProfilePage : ContentPage
     {
-        InitializeComponent();
-        _user = user;
-        _token = token;
-        _httpClient = new HttpClient();
+        private readonly User _user;
+        private readonly string _token;
+        private readonly HttpClient _httpClient;
 
-        LoadUserProfile();
-    }
+        public event Action<User> UserProfileUpdated; // Событие для обновления профиля
 
-    private void LoadUserProfile()
-    {
-        NameEntry.Text = _user.Name;
-        SurnameEntry.Text = _user.Surname;
-        UsernameEntry.Text = _user.Username;
-        EmailEntry.Text = _user.Email;
-        PhoneEntry.Text = string.IsNullOrEmpty(_user.Phone) ? "" : _user.Phone;
-        UsernameLabel.Text = _user.Username;
-    }
-
-    private async void OnUpdateButtonClicked(object sender, EventArgs e)
-    {
-        try
+        public UserUpdateProfilePage(User user, string token)
         {
-            _user.Name = NameEntry.Text;
-            _user.Surname = SurnameEntry.Text;
-            _user.Email = EmailEntry.Text;
-            _user.Phone = PhoneEntry.Text;
+            InitializeComponent();
+            _user = user;
+            _token = token;
+            _httpClient = new HttpClient();
 
-            var success = await UpdateUserProfileAsync();
+            LoadUserProfile();
+        }
 
-            if (success)
+        private void LoadUserProfile()
+        {
+            // Загружаем данные в поля
+            NameEntry.Text = _user.Name;
+            SurnameEntry.Text = _user.Surname;
+            UsernameEntry.Text = _user.Username;
+            UsernameLabel.Text = _user.Username;
+            EmailEntry.Text = _user.Email;
+            PhoneEntry.Text = string.IsNullOrEmpty(_user.Phone) ? "" : _user.Phone;
+        }
+
+        private async void OnUpdateButtonClicked(object sender, EventArgs e)
+        {
+            try
             {
-                await DisplayAlert("Успех", "Профиль успешно обновлен", "OK");
+                // Заполняем объект _user новыми данными
+                _user.Name = NameEntry.Text;
+                _user.Surname = SurnameEntry.Text;
+                _user.Username = UsernameEntry.Text;
+                _user.Email = EmailEntry.Text;
+                _user.Phone = PhoneEntry.Text;
+
+                // Логируем отправляемые данные
+                Console.WriteLine("Отправляемый JSON:");
+                Console.WriteLine(JsonSerializer.Serialize(_user));
+
+                // Отправляем запрос
+                var success = await UpdateUserProfileAsync();
+
+                if (success)
+                {
+                    // Если успешно, обновляем UI с новыми данными
+                    // Обновляем UI с новыми значениями в _user
+                    LoadUserProfile();  // Обновление UI с новыми данными
+
+                    UserProfileUpdated?.Invoke(_user); // Сигнализируем об обновлении
+                    await DisplayAlert("Успех", "Профиль успешно обновлен", "OK");
+                }
+                else
+                {
+                    ErrorLabel.Text = "Не удалось обновить профиль. Попробуйте позже.";
+                    ErrorLabel.IsVisible = true;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ErrorLabel.Text = "Не удалось обновить профиль. Попробуйте позже.";
+                // Логируем исключение
+                Console.WriteLine($"Ошибка: {ex.Message}");
+                await DisplayAlert("Ошибка", $"Произошла ошибка: {ex.Message}", "OK");
+            }
+        }
+
+
+        private async Task<bool> UpdateUserProfileAsync()
+        {
+            try
+            {
+                // Создаем анонимный объект для отправки данных
+                var updatePayload = new
+                {
+                    id = _user.Id,
+                    name = _user.Name,
+                    surname = _user.Surname,
+                    email = _user.Email,
+                    phone = _user.Phone,
+                    username = _user.Username
+                };
+
+                // Сериализация объекта в JSON
+                var jsonContent = new StringContent(JsonSerializer.Serialize(updatePayload), Encoding.UTF8, "application/json");
+
+                // Устанавливаем токен авторизации
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+
+                // Отправляем запрос
+                var response = await _httpClient.PostAsync("http://course-project-4/api/profile", jsonContent);
+
+                // Читаем ответ от сервера
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                // Логируем статус-код и ответ сервера
+                Console.WriteLine("Статус-код ответа: " + response.StatusCode);
+                Console.WriteLine("Ответ сервера: " + responseContent);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+
+                // Если сервер вернул ошибку, показываем ее
+                var errorResponse = JsonSerializer.Deserialize<ErrorResponse>(responseContent);
+                ErrorLabel.Text = errorResponse?.Message ?? "Неизвестная ошибка.";
                 ErrorLabel.IsVisible = true;
+
+                return false;
             }
-        }
-        catch (Exception ex)
-        {
-            await DisplayAlert("Ошибка", $"Произошла ошибка: {ex.Message}", "OK");
+            catch (Exception ex)
+            {
+                // Логируем исключение
+                Console.WriteLine($"Ошибка при обновлении профиля: {ex.Message}");
+                return false;
+            }
         }
     }
 
-    private async Task<bool> UpdateUserProfileAsync()
+    // Пример класса для обработки ошибок сервера
+    public class ErrorResponse
     {
-        try
-        {
-            var jsonContent = new StringContent(JsonSerializer.Serialize(_user), Encoding.UTF8, "application/json");
-            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _token);
-
-            var response = await _httpClient.PostAsync("http://course-project-4/api/profile", jsonContent);
-            return response.IsSuccessStatusCode;
-        }
-        catch
-        {
-            return false;
-        }
+        [JsonPropertyName("message")]
+        public string Message { get; set; }
     }
 }
