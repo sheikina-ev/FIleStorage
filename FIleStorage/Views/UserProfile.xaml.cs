@@ -1,9 +1,13 @@
 using FIleStorage.Models;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
 using FIleStorage.Views;
+
+// Добавляем псевдоним для вашего класса File
+using MyFile = FIleStorage.Models.File;
 
 namespace FIleStorage.Views
 {
@@ -40,6 +44,9 @@ namespace FIleStorage.Views
             {
                 var files = await _userService.GetUserFilesAsync();
                 FilesListView.ItemsSource = files;
+
+                // Добавляем обработчик клика по файлам
+                FilesListView.ItemTapped += OnFileTapped;
             }
             catch (Exception ex)
             {
@@ -47,6 +54,24 @@ namespace FIleStorage.Views
                 await DisplayAlert("Error", ex.Message, "OK");
             }
         }
+
+        private async void OnFileTapped(object sender, ItemTappedEventArgs e)
+        {
+            if (e.Item is MyFile selectedFile)
+            {
+                await DisplayAlert("Информация о файле",
+                    $"Имя: {selectedFile.Name}\n" +
+                    $"Расширение: {selectedFile.Extension}\n" +
+                    $"Размер: {selectedFile.Size}\n" +
+                    $"Путь: {selectedFile.Path}\n" +
+                    $"Дата создания: {selectedFile.CreatedAt?.ToString("g") ?? "Не указана"}",
+                    "OK");
+            }
+
+            // Сбрасываем выделение элемента
+            ((ListView)sender).SelectedItem = null;
+        }
+
 
         // Метод для обработки нажатия кнопки "Изменить"
         private async void OnEditButtonClicked(object sender, EventArgs e)
@@ -69,7 +94,4 @@ namespace FIleStorage.Views
             LoadUserProfile();
         }
     }
-
-
-
 }

@@ -111,13 +111,38 @@
                    Margin="0,30,0,0"
                    HorizontalTextAlignment="Center" />
 
-            <ListView x:Name="FilesListView">
+            <ListView x:Name="FilesListView" HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell Text="{Binding Name}" Detail="{Binding Size}" />
+                        <ViewCell>
+                            <Grid Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <!-- Универсальная картинка для файлов -->
+                                <Image Source="file_icon.png" 
+                           WidthRequest="80" 
+                           HeightRequest="80" 
+                           VerticalOptions="Center" 
+                           HorizontalOptions="Center" 
+                           Grid.Row="0" />
+
+                                <!-- Название файла -->
+                                <Label Text="{Binding Name}" 
+                           FontSize="14" 
+                           TextColor="#FFFFFF" 
+                           VerticalTextAlignment="Center" 
+                           HorizontalTextAlignment="Center" 
+                           Grid.Row="1" 
+                           HorizontalOptions="Center" />
+                            </Grid>
+                        </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
