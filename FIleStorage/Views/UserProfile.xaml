@@ -111,7 +111,13 @@
                    Margin="0,30,0,0"
                    HorizontalTextAlignment="Center" />
 
-            <Grid x:Name="FilesGrid" ColumnSpacing="10" RowSpacing="10" Padding="10" />
+            <ListView x:Name="FilesListView">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding Name}" Detail="{Binding Size}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

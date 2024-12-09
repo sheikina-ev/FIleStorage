@@ -12,16 +12,18 @@ namespace FIleStorage.Views
         private User _user;
         private readonly string _token;
         private readonly HttpClient _httpClient;
+        private readonly UserService _userService;
 
-        // Конструктор, который принимает токен
         public UserProfile(User user, string token)
         {
             InitializeComponent();
             _user = user;
             _token = token;
             _httpClient = new HttpClient();
+            _userService = new UserService(_httpClient, _token);
 
             LoadUserProfile();
+            LoadUserFiles(); // Загружаем файлы пользователя сразу при открытии профиля
         }
 
         private void LoadUserProfile()
@@ -30,6 +32,20 @@ namespace FIleStorage.Views
             UsernameLabel.Text = _user.Username;
             UsernameEntry.Text = _user.Username;
             EmailEntry.Text = _user.Email;
+        }
+
+        private async void LoadUserFiles()
+        {
+            try
+            {
+                var files = await _userService.GetUserFilesAsync();
+                FilesListView.ItemsSource = files;
+            }
+            catch (Exception ex)
+            {
+                // Обработка ошибок (например, показать сообщение пользователю)
+                await DisplayAlert("Error", ex.Message, "OK");
+            }
         }
 
         // Метод для обработки нажатия кнопки "Изменить"
@@ -52,6 +68,8 @@ namespace FIleStorage.Views
             // Перезагружаем отображение данных на этой странице
             LoadUserProfile();
         }
-
     }
+
+
+
 }
