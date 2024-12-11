@@ -93,7 +93,7 @@
                         <Entry x:Name="UsernameEntry"
                                Placeholder="Никнейм"
                                PlaceholderColor="#888888"
-                               TextColor="#888888"
+                               TextColor="White"
                                Grid.Column="1" />
                     </Grid>
                 </Frame>

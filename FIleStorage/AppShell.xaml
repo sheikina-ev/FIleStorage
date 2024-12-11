@@ -5,12 +5,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:FIleStorage"
     Shell.FlyoutBehavior="Flyout"
-    xmlns:auth="clr-namespace:FIleStorage.Views.Auth"
+    xmlns:auth="clr-namespace:FIleStorage"
     Title="FIleStorage">
 
     <ShellContent
         Title="Home"
-        ContentTemplate="{DataTemplate auth:TestPage}"
+        ContentTemplate="{DataTemplate auth:MainPage}"
         />
 
 </Shell>
