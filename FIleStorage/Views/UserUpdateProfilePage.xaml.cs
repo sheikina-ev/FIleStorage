@@ -6,6 +6,7 @@ using Microsoft.Maui.Controls;
 using System.Text;
 using System.Net.Http.Headers;
 using System.Text.Json.Serialization;
+using FIleStorage.Views.Auth;
 
 namespace FIleStorage.Views
 {
@@ -25,6 +26,12 @@ namespace FIleStorage.Views
             _httpClient = new HttpClient();
 
             LoadUserProfile();
+
+            // Проверяем, что токен содержит правильный userId
+            if (!ValidateToken(_token, _user.Id.ToString()))
+            {
+                Console.WriteLine("Ошибка: токен не содержит правильного userId.");
+            }
         }
 
         private void LoadUserProfile()
@@ -59,7 +66,6 @@ namespace FIleStorage.Views
                 if (success)
                 {
                     // Если успешно, обновляем UI с новыми данными
-                    // Обновляем UI с новыми значениями в _user
                     LoadUserProfile();  // Обновление UI с новыми данными
 
                     UserProfileUpdated?.Invoke(_user); // Сигнализируем об обновлении
@@ -78,7 +84,6 @@ namespace FIleStorage.Views
                 await DisplayAlert("Ошибка", $"Произошла ошибка: {ex.Message}", "OK");
             }
         }
-
 
         private async Task<bool> UpdateUserProfileAsync()
         {
@@ -129,6 +134,67 @@ namespace FIleStorage.Views
                 Console.WriteLine($"Ошибка при обновлении профиля: {ex.Message}");
                 return false;
             }
+        }
+
+        private async void OnLogoutButtonClicked(object sender, EventArgs e)
+        {
+            // Спрашиваем подтверждение выхода
+            bool answer = await DisplayAlert("Подтверждение", "Вы действительно хотите выйти?", "Да", "Нет");
+            if (answer)
+            {
+                // Переход на страницу логина
+                await Navigation.PushAsync(new Login());
+            }
+        }
+
+        private bool ValidateToken(string token, string expectedUserId)
+        {
+            try
+            {
+                // Разделяем токен на части (header, payload, signature)
+                var parts = token.Split('.');
+                if (parts.Length != 3)
+                {
+                    Console.WriteLine("Неверный формат токена.");
+                    return false;
+                }
+
+                // Декодируем payload (второй элемент)
+                var payload = parts[1];
+                var decodedPayload = Base64UrlDecode(payload);
+                var payloadJson = Encoding.UTF8.GetString(decodedPayload);
+
+                // Преобразуем payload в объект
+                var payloadObject = JsonSerializer.Deserialize<Dictionary<string, object>>(payloadJson);
+
+                // Проверяем, что токен содержит ожидаемый userId
+                if (payloadObject.TryGetValue("sub", out var userId))
+                {
+                    if (userId.ToString() == expectedUserId)
+                    {
+                        return true;
+                    }
+                }
+
+                Console.WriteLine("Токен не содержит ожидаемого userId.");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при проверке токена: {ex.Message}");
+                return false;
+            }
+        }
+
+        private byte[] Base64UrlDecode(string input)
+        {
+            string base64 = input.Replace('-', '+').Replace('_', '/');
+            switch (base64.Length % 4)
+            {
+                case 2: base64 += "=="; break;
+                case 3: base64 += "="; break;
+            }
+            return Convert.FromBase64String(base64);
         }
     }
 

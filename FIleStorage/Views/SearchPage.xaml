@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FIleStorage.Views.SearchPage"
+             Title="Поиск">
+
+    <StackLayout Padding="20">
+        <!-- Поле для поиска пользователей -->
+        <Entry x:Name="SearchEntry"
+               Placeholder="Введите имя пользователя"
+               TextColor="Black"
+               BackgroundColor="White" />
+        <Button Text="Найти пользователей"
+                Clicked="OnSearchButtonClicked"
+                BackgroundColor="#FF0055"
+                TextColor="White" />
+        <ListView ItemsSource="{Binding Users}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Username}"
+                              Detail="{Binding Email}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <!-- Поле для поиска файлов -->
+        <Entry x:Name="FileSearchEntry"
+               Placeholder="Введите название файла"
+               TextColor="Black"
+               BackgroundColor="White" />
+        <Button Text="Найти файлы"
+                Clicked="OnSearchFileButtonClicked"
+                BackgroundColor="#FF0055"
+                TextColor="White" />
+        <ListView ItemsSource="{Binding Files}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Name}"
+                              Detail="{Binding Extension}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</ContentPage>

@@ -50,6 +50,21 @@ namespace FIleStorage.Views
                 // Очищаем контейнер
                 FilesContainer.Children.Clear();
 
+                // Если файлов нет, отображаем сообщение
+                if (!limitedFiles.Any())
+                {
+                    FilesContainer.Children.Add(new Label
+                    {
+                        Text = "Нет доступных файлов. Вы можете загрузить файлы через соответствующий раздел.",
+                        TextColor = Colors.White,
+                        HorizontalTextAlignment = TextAlignment.Center,
+                        VerticalTextAlignment = TextAlignment.Center,
+                        FontSize = 16,
+                        Padding = new Thickness(20)
+                    });
+                    return;
+                }
+
                 // Добавляем файлы в контейнер
                 foreach (var file in limitedFiles)
                 {
@@ -86,25 +101,26 @@ namespace FIleStorage.Views
 
                     FilesContainer.Children.Add(fileStack);
                 }
-
-                // Если файлов нет, отображаем сообщение
-                if (!limitedFiles.Any())
-                {
-                    FilesContainer.Children.Add(new Label
-                    {
-                        Text = "Нет доступных файлов.",
-                        TextColor = Colors.White,
-                        HorizontalTextAlignment = TextAlignment.Center,
-                        VerticalTextAlignment = TextAlignment.Center,
-                        FontSize = 16,
-                    });
-                }
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Ошибка", ex.Message, "OK");
+                // Логируем ошибку в консоль или добавляем сообщение на страницу
+                Console.WriteLine($"Ошибка при загрузке файлов: {ex.Message}");
+
+                // Показываем сообщение об ошибке на странице, если требуется
+                FilesContainer.Children.Clear();
+                FilesContainer.Children.Add(new Label
+                {
+                    Text = "Нет доступных файлов",
+                    TextColor = Colors.Red,
+                    HorizontalTextAlignment = TextAlignment.Center,
+                    VerticalTextAlignment = TextAlignment.Center,
+                    FontSize = 16,
+                    Padding = new Thickness(20)
+                });
             }
         }
+
 
 
         private async void OnFileSelected(MyFile file)
@@ -135,7 +151,23 @@ namespace FIleStorage.Views
 
         private async void OnShowAllFilesClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new Home(_user, _token));
+            await Navigation.PushAsync(new FilesPage(_user, _token));
         }
+        private async void OnNavigateToFilesPage(object sender, EventArgs e)
+        {
+            // Переход на страницу "Файлы"
+            await Shell.Current.GoToAsync("//filesPage");
+        }
+        private async void Search(object sender, EventArgs e)
+        {
+            // Переход на страницу Поиска
+            await Navigation.PushAsync(new SearchPage(_user, _token));
+        } 
+        private async void Permission(object sender, EventArgs e)
+        {
+            // Переход на страницу Прав доступа
+            await Navigation.PushAsync(new PermissionsPage(_token));
+        }
+
     }
 }

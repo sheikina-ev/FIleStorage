@@ -15,6 +15,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <!-- Аватар -->
@@ -160,6 +161,17 @@
                     FontAttributes="Bold"
                     Margin="0,20,0,0"
                     Clicked="OnUpdateButtonClicked" />
+
+            <!-- Кнопка выйти -->
+            <Button Grid.Row="7"
+                    Text="Покинуть профиль"
+                    BackgroundColor="#FF0055"
+                    TextColor="White"
+                    CornerRadius="25"
+                    HeightRequest="50"
+                    FontAttributes="Bold"
+                    Margin="0,20,0,0"
+                    Clicked="OnLogoutButtonClicked" />
         </Grid>
     </ScrollView>
 </ContentPage>

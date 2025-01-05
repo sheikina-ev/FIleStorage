@@ -68,12 +68,12 @@ namespace FIleStorage.Views.Auth
 
                     if (result?.Token != null)
                     {
-                        await DisplayAlert("Успешная регистрация", $"Ваш токен: {result.Token}", "ОК");
-                        await Navigation.PushAsync(new Home(result.User, result.Token));
+                        await DisplayAlert("Успешная регистрация", "Регистрация завершена успешно. Добро пожаловать!", "ОК");
+                        await Navigation.PushAsync(new UserProfile(result.User, result.Token));
                     }
                     else
                     {
-                        await DisplayAlert("Ошибка", "Не удалось получить токен", "ОК");
+                        await DisplayAlert("Ошибка", "Не удалось получить данные для входа. Пожалуйста, попробуйте снова.", "ОК");
                     }
                 }
                 else
