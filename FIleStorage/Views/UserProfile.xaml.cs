@@ -1,4 +1,5 @@
 using FIleStorage.Models;
+using FIleStorage.Utils;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -17,11 +18,14 @@ namespace FIleStorage.Views
         private readonly HttpClient _httpClient;
         private readonly UserService _userService;
 
-        public UserProfile(User user, string token)
+        public UserProfile()
         {
+            
             InitializeComponent();
-            _user = user;
-            _token = token;
+
+
+            _user = UserData.User;
+            _token = UserData.Token;
             _httpClient = new HttpClient();
             _userService = new UserService(_httpClient, _token);
 
@@ -136,7 +140,7 @@ namespace FIleStorage.Views
 
         private async void OnEditButtonClicked(object sender, EventArgs e)
         {
-            var updateProfilePage = new UserUpdateProfilePage(_user, _token);
+            var updateProfilePage = new UserUpdateProfilePage();
 
             updateProfilePage.UserProfileUpdated += OnUserProfileUpdated;
 
@@ -151,23 +155,15 @@ namespace FIleStorage.Views
 
         private async void OnShowAllFilesClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new FilesPage(_user, _token));
+            await Navigation.PushAsync(new FilesPage());
         }
         private async void OnNavigateToFilesPage(object sender, EventArgs e)
         {
             // Переход на страницу "Файлы"
             await Shell.Current.GoToAsync("//filesPage");
         }
-        private async void Search(object sender, EventArgs e)
-        {
-            // Переход на страницу Поиска
-            await Navigation.PushAsync(new SearchPage(_user, _token));
-        } 
-        private async void Permission(object sender, EventArgs e)
-        {
-            // Переход на страницу Прав доступа
-            await Navigation.PushAsync(new PermissionsPage(_token));
-        }
+       
+      
 
     }
 }

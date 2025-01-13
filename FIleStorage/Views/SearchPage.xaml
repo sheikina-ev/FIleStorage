@@ -14,14 +14,15 @@
                 Clicked="OnSearchButtonClicked"
                 BackgroundColor="#FF0055"
                 TextColor="White" />
-        <ListView ItemsSource="{Binding Users}">
+        <ListView ItemsSource="{Binding Users}" ItemSelected="OnUserSelected">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell Text="{Binding Username}"
-                              Detail="{Binding Email}" />
+                      Detail="{Binding Email}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
 
         <!-- Поле для поиска файлов -->
         <Entry x:Name="FileSearchEntry"

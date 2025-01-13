@@ -1,4 +1,5 @@
 using FIleStorage.Models;
+using FIleStorage.Utils;
 using System.Net.Http.Json;
 using System.Text.Json;
 
@@ -17,7 +18,9 @@ namespace FIleStorage.Views.Auth
         private async void OnLoginTapped(object sender, EventArgs e)
         {
             // Переход на страницу входа
-            await Navigation.PushAsync(new Login());
+            //await Navigation.PushAsync(new Login());
+            await Shell.Current.GoToAsync("//LoginPage");
+
         }
 
         // Регистрация
@@ -69,7 +72,11 @@ namespace FIleStorage.Views.Auth
                     if (result?.Token != null)
                     {
                         await DisplayAlert("Успешная регистрация", "Регистрация завершена успешно. Добро пожаловать!", "ОК");
-                        await Navigation.PushAsync(new UserProfile(result.User, result.Token));
+                        
+                        UserData.User = result.User;
+                        UserData.Token = result.Token;
+                        
+                        await Navigation.PushAsync(new UserProfile());
                     }
                     else
                     {

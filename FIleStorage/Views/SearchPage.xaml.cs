@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
 using File = FIleStorage.Models.File;
+using FIleStorage.Utils;
 
 namespace FIleStorage.Views
 {
@@ -21,11 +22,12 @@ namespace FIleStorage.Views
         // Список файлов текущего пользователя
         public ObservableCollection<File> Files { get; set; } = new ObservableCollection<File>();
 
-        public SearchPage(User currentUser, string token)
+        public SearchPage()
         {
             InitializeComponent();
-            _currentUser = currentUser; // Устанавливаем текущего пользователя
-            _token = token;
+
+            _currentUser = UserData.User;
+            _token = UserData.Token;
             _httpClient = new HttpClient();
 
             BindingContext = this; // Устанавливаем контекст данных
@@ -83,6 +85,26 @@ namespace FIleStorage.Views
                 await DisplayAlert("Ошибка", $"Произошла ошибка: {ex.Message}", "OK");
             }
         }
+        private async void OnUserSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem is User selectedUser)
+            {
+                // Формируем строку с информацией о пользователе
+                var userInfo =
+                    $"Фамилия: {selectedUser.Surname}\n" +
+                    $"Имя: {selectedUser.Name}\n" +
+                    $"Имя пользователя: {selectedUser.Username}\n" +
+                    $"Email: {selectedUser.Email}\n" +
+                    $"Телефон: {selectedUser.Phone}";
+
+                // Отображаем модальное окно
+                await DisplayAlert("Информация о пользователе", userInfo, "OK");
+
+                // Снимаем выделение
+                ((ListView)sender).SelectedItem = null;
+            }
+        }
+
 
         // Поиск файлов у текущего пользователя
         private async void OnSearchFileButtonClicked(object sender, EventArgs e)

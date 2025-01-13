@@ -1,4 +1,5 @@
 using FIleStorage.Models;
+using FIleStorage.Utils;
 using FIleStorage.Views.Auth;
 
 namespace FIleStorage.Views;
@@ -7,14 +8,10 @@ public partial class Home : ContentPage
 {
     private User _user;
     private string _token;
-    public Home(User user, string token)
+    public Home()
     {
         InitializeComponent();
-        _user = user;
-        _token = token;
-
-
+        _user = UserData.User;
+        _token = UserData.Token;
     }
-
- 
 }
