@@ -1,3 +1,4 @@
+using FIleStorage.Utils;
 using Microsoft.Maui.Controls;
 using System;
 using System.Net.Http;
@@ -12,10 +13,10 @@ namespace FIleStorage.Views
         private readonly string _token;
         private readonly HttpClient _httpClient;
 
-        public PermissionsPage(string token)
+        public PermissionsPage()
         {
             InitializeComponent();
-            _token = token;
+            _token = UserData.Token;
 
             _httpClient = new HttpClient();
             _httpClient.DefaultRequestHeaders.Authorization =

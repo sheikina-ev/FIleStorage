@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
 using File = FIleStorage.Models.File;
+using FIleStorage.Utils;
 
 namespace FIleStorage.Views
 {
@@ -21,11 +22,12 @@ namespace FIleStorage.Views
         // Список файлов текущего пользователя
         public ObservableCollection<File> Files { get; set; } = new ObservableCollection<File>();
 
-        public SearchPage(User currentUser, string token)
+        public SearchPage()
         {
             InitializeComponent();
-            _currentUser = currentUser; // Устанавливаем текущего пользователя
-            _token = token;
+
+            _currentUser = UserData.User;
+            _token = UserData.Token;
             _httpClient = new HttpClient();
 
             BindingContext = this; // Устанавливаем контекст данных

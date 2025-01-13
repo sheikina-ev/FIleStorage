@@ -1,4 +1,5 @@
 using FIleStorage.Models;
+using FIleStorage.Utils;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -16,8 +17,9 @@ public partial class Login : ContentPage
 
     private async void OnRegisterTapped(object sender, EventArgs e)
     {
-        // Переход на страницу регистрации
-        await Navigation.PushAsync(new Register());
+        //Переход на страницу регистрации
+        //await Navigation.PushAsync(new Register());
+        await Shell.Current.GoToAsync("//RegisterPage");
     }
 
     private async void OnLoginButtonClicked(object sender, EventArgs e)
@@ -35,9 +37,10 @@ public partial class Login : ContentPage
 
         if (loginResponse != null)
         {
-
+            UserData.User = loginResponse.User;
+            UserData.Token = loginResponse.Token;
             // После успешного входа перенаправляем пользователя на страницу профиля
-            await Navigation.PushAsync(new UserProfile(loginResponse.User,loginResponse.Token));
+            await Navigation.PushAsync(new UserProfile());
         }
     }
 

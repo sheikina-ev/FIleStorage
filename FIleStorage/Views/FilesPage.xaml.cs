@@ -7,6 +7,7 @@ using Microsoft.Maui.Controls;
 
 // Добавляем псевдоним для класса File
 using MyFile = FIleStorage.Models.File;
+using FIleStorage.Utils;
 
 namespace FIleStorage.Views
 {
@@ -21,11 +22,11 @@ namespace FIleStorage.Views
 
         public bool HasNoFiles => !Files.Any();
 
-        public FilesPage(User user, string token)
+        public FilesPage()
         {
             InitializeComponent();
-            _user = user;
-            _token = token;
+            _user = UserData.User;
+            _token = UserData.Token;
 
             _httpClient = new HttpClient();
             _userService = new UserService(_httpClient, _token);

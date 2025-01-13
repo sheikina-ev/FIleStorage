@@ -7,6 +7,7 @@ using System.Text;
 using System.Net.Http.Headers;
 using System.Text.Json.Serialization;
 using FIleStorage.Views.Auth;
+using FIleStorage.Utils;
 
 namespace FIleStorage.Views
 {
@@ -18,11 +19,11 @@ namespace FIleStorage.Views
 
         public event Action<User> UserProfileUpdated; // Событие для обновления профиля
 
-        public UserUpdateProfilePage(User user, string token)
+        public UserUpdateProfilePage()
         {
             InitializeComponent();
-            _user = user;
-            _token = token;
+            _user = UserData.User;
+            _token = UserData.Token;
             _httpClient = new HttpClient();
 
             LoadUserProfile();
