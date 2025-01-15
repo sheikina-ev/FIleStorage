@@ -6,24 +6,26 @@
     xmlns:local="clr-namespace:FIleStorage.Views"
     xmlns:auth="clr-namespace:FIleStorage.Views.Auth"
     Shell.FlyoutBehavior="Flyout"
-    Title="FIleStorage">
+    Title="FIleStorage"
+    >
+
 
     <!--xmlns:auth="clr-namespace:FIleStorage.Views.Auth"-->
 
     <ShellContent
-        Title="Home"
+        
         ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage"
         Shell.FlyoutItemIsVisible="False" 
         />
 
     <ShellContent
-      Title="Login"
+   
       ContentTemplate="{DataTemplate auth:Login}" Route="LoginPage"
         Shell.FlyoutItemIsVisible="False" 
       />
 
     <ShellContent
-      Title="Register"
+     
       ContentTemplate="{DataTemplate auth:Register}" Route="RegisterPage" Shell.FlyoutItemIsVisible="False" />
     <!-- TODO: https://git.zmln.ru/zamelane/course-project-4/src/branch/main/mobile_apps/ClientApp/Src/ViewModels/TabsViewModel.cs -->
 

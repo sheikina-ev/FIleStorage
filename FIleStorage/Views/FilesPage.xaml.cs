@@ -1,13 +1,14 @@
 using FIleStorage.Models;
+using Newtonsoft.Json; // Добавляем библиотеку для работы с JSON
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
-
-// Добавляем псевдоним для класса File
-using MyFile = FIleStorage.Models.File;
-using FIleStorage.Utils;
+using Microsoft.Maui.Storage;
+using System.Net.Http.Headers;
+using File = FIleStorage.Models.File;
 
 namespace FIleStorage.Views
 {
@@ -18,15 +19,15 @@ namespace FIleStorage.Views
         private readonly HttpClient _httpClient;
         private readonly UserService _userService;
 
-        public ObservableCollection<MyFile> Files { get; set; } = new ObservableCollection<MyFile>();
+        public ObservableCollection<File> Files { get; set; } = new ObservableCollection<File>();
 
         public bool HasNoFiles => !Files.Any();
 
         public FilesPage()
         {
             InitializeComponent();
-            _user = UserData.User;
-            _token = UserData.Token;
+            _user = UserData.User; // Получаем данные о пользователе из UserData
+            _token = UserData.Token; // Получаем токен
 
             _httpClient = new HttpClient();
             _userService = new UserService(_httpClient, _token);
@@ -55,18 +56,59 @@ namespace FIleStorage.Views
             }
         }
 
-        public Command FileSelectedCommand => new Command<MyFile>(async (file) =>
+        // Метод для загрузки файла
+        public Command UploadFileCommand => new Command(async () =>
         {
-            if (file != null)
+            var filePickerResult = await FilePicker.PickAsync(); // Используем FilePicker для выбора файла
+
+            if (filePickerResult != null)
             {
-                await DisplayAlert("Информация о файле",
-                    $"Имя: {file.Name}\n" +
-                    $"Расширение: {file.Extension}\n" +
-                    $"Размер: {file.Size} KB\n" +
-                    $"Путь: {file.Path}\n" +
-                    $"Дата создания: {file.CreatedAt?.ToString("g") ?? "Не указана"}",
-                    "OK");
+                await UploadFileAsync(filePickerResult.FullPath); // Загружаем выбранный файл
             }
         });
+
+        // Метод загрузки файла
+        private async Task UploadFileAsync(string filePath)
+        {
+            try
+            {
+                var content = new MultipartFormDataContent();
+                var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                var fileName = Path.GetFileName(filePath);
+
+                var fileContent = new StreamContent(fileStream);
+                fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                {
+                    Name = "file",
+                    FileName = fileName
+                };
+
+                content.Add(fileContent);
+
+                var request = new HttpRequestMessage(HttpMethod.Post, "https://yourapi.com/files"); // Укажите правильный URL
+                request.Headers.Add("Authorization", $"Bearer {_token}");
+                request.Content = content;
+
+                var response = await _httpClient.SendAsync(request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    var responseObject = JsonConvert.DeserializeObject<dynamic>(responseBody);
+                    await DisplayAlert("Success", "File successfully uploaded.", "OK");
+                    LoadUserFiles(); // Перезагружаем список файлов
+                }
+                else
+                {
+                    await DisplayAlert("Error", "Failed to upload the file.", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", $"An error occurred while uploading the file: {ex.Message}", "OK");
+            }
+        }
+
+        // Дополнительные методы, такие как скачивание, редактирование и удаление файлов
     }
 }

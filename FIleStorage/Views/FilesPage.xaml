@@ -1,30 +1,30 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FIleStorage.Views.FilesPage"
-             Title="Ваши файлы"
+             Title="Your Files"
              BackgroundColor="#1E1E1E">
 
-    <!-- Основной контейнер -->
+    <!-- Main container -->
     <ScrollView>
         <StackLayout Padding="20" Spacing="10" HorizontalOptions="FillAndExpand">
 
-            <!-- Заголовок -->
-            <Label Text="Ваши файлы"
+            <!-- Header -->
+            <Label Text="Your Files"
                    FontSize="24"
                    TextColor="White"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"
                    Margin="0,0,0,20" />
 
-            <!-- Сообщение, если файлов нет -->
-            <Label Text="Нет доступных файлов."
+            <!-- Message if no files -->
+            <Label Text="No available files."
                    FontSize="16"
                    TextColor="White"
                    HorizontalOptions="Center"
                    VerticalOptions="Center"
                    IsVisible="{Binding HasNoFiles}" />
 
-            <!-- Список файлов -->
+            <!-- File list -->
             <FlexLayout x:Name="FilesFlexContainer"
                         Wrap="Wrap"
                         JustifyContent="SpaceEvenly"
@@ -34,21 +34,18 @@
                     <DataTemplate>
                         <VerticalStackLayout Spacing="5"
                                              Padding="10"
-                                           
                                              WidthRequest="120"
                                              HorizontalOptions="Center">
 
-                            <!-- Иконка файла -->
+                            <!-- File icon -->
                             <ImageButton Source="file_icon.png"
-             WidthRequest="80"
-             HeightRequest="80"
-         
-             HorizontalOptions="Center"
-             Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.FileSelectedCommand}"
-             CommandParameter="{Binding .}" />
+                                         WidthRequest="80"
+                                         HeightRequest="80"
+                                         HorizontalOptions="Center"
+                                         Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.DownloadFileCommand}"
+                                         CommandParameter="{Binding .}" />
 
-
-                            <!-- Название файла -->
+                            <!-- File name -->
                             <Label Text="{Binding Name}"
                                    FontSize="14"
                                    TextColor="White"
@@ -58,6 +55,14 @@
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
             </FlexLayout>
+
+            <!-- Buttons for file actions -->
+            <Button Text="Upload File"
+                    BackgroundColor="#4CAF50"
+                    TextColor="White"
+                    Command="{Binding UploadFileCommand}" />
+
+            <!-- Optional: Button to delete or edit files if needed -->
         </StackLayout>
     </ScrollView>
 </ContentPage>

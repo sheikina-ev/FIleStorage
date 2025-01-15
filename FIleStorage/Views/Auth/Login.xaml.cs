@@ -2,8 +2,8 @@ using FIleStorage.Models;
 using FIleStorage.Utils;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using FIleStorage.Views;
+
 namespace FIleStorage.Views.Auth;
 
 public partial class Login : ContentPage
@@ -17,8 +17,7 @@ public partial class Login : ContentPage
 
     private async void OnRegisterTapped(object sender, EventArgs e)
     {
-        //Переход на страницу регистрации
-        //await Navigation.PushAsync(new Register());
+        // Переход на страницу регистрации
         await Shell.Current.GoToAsync("//RegisterPage");
     }
 
@@ -37,9 +36,14 @@ public partial class Login : ContentPage
 
         if (loginResponse != null)
         {
+            // Сохраняем данные пользователя и токен
             UserData.User = loginResponse.User;
             UserData.Token = loginResponse.Token;
-            // После успешного входа перенаправляем пользователя на страницу профиля
+
+            // Включаем навигацию
+            Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
+
+            // Перенаправляем на страницу профиля
             await Navigation.PushAsync(new UserProfile());
         }
     }
@@ -69,12 +73,12 @@ public partial class Login : ContentPage
             }
             else
             {
-                await DisplayAlert("Ошибка", "Произошла ошибка", "OK");
+                await DisplayAlert("Ошибка", "Произошла ошибка: " + response.ReasonPhrase, "OK");
             }
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Ошибка", "Произошла ошибка на сервере", "OK");
+            await DisplayAlert("Ошибка", $"Произошла ошибка: {ex.Message}", "OK");
         }
         return null;
     }

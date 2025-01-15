@@ -77,7 +77,7 @@ namespace FIleStorage.Views
                 else
                 {
                     var errorContent = await response.Content.ReadAsStringAsync();
-                    await DisplayAlert("Ошибка", $"API вернул ошибку: {response.StatusCode} - {errorContent}", "OK");
+                    await DisplayAlert("Ошибка", "Пользователи не были найдены!", "OK");
                 }
             }
             catch (Exception ex)

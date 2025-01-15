@@ -143,10 +143,18 @@ namespace FIleStorage.Views
             bool answer = await DisplayAlert("Подтверждение", "Вы действительно хотите выйти?", "Да", "Нет");
             if (answer)
             {
+                // Сбрасываем данные пользователя
+                UserData.User = null;
+                UserData.Token = null;
+
+                // Отключаем навигационное меню
+                Shell.Current.FlyoutBehavior = FlyoutBehavior.Disabled;
+
                 // Переход на страницу логина
-                await Navigation.PushAsync(new Login());
+                await Shell.Current.GoToAsync("//LoginPage");
             }
         }
+
 
         private bool ValidateToken(string token, string expectedUserId)
         {

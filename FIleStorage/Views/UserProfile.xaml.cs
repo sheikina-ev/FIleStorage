@@ -162,8 +162,9 @@ namespace FIleStorage.Views
             // Переход на страницу "Файлы"
             await Shell.Current.GoToAsync("//filesPage");
         }
-       
+
       
+
 
     }
 }
