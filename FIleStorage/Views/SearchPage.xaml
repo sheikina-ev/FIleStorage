@@ -1,45 +1,60 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FIleStorage.Views.SearchPage"
-             Title="Поиск">
+             Title="Поиск"
+             BackgroundColor="#1E1E1E">
 
     <StackLayout Padding="20">
         <!-- Поле для поиска пользователей -->
         <Entry x:Name="SearchEntry"
                Placeholder="Введите имя пользователя"
                TextColor="Black"
-               BackgroundColor="White" />
+               BackgroundColor="White" 
+               HeightRequest="50"/>
+
+        <!-- Кнопка для поиска пользователей -->
         <Button Text="Найти пользователей"
                 Clicked="OnSearchButtonClicked"
                 BackgroundColor="#FF0055"
-                TextColor="White" />
-        <ListView ItemsSource="{Binding Users}" ItemSelected="OnUserSelected">
+                TextColor="White"
+                HeightRequest="50"
+                Margin="0,10,0,10"/>
+
+        <!-- Список пользователей -->
+        <ListView ItemsSource="{Binding Users}" ItemSelected="OnUserSelected" SeparatorVisibility="Default">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding Username}"
-                      Detail="{Binding Email}" />
+                    <ViewCell>
+                        <StackLayout Padding="10" BackgroundColor="#333333" Margin="0,5,0,5">
+                            <Label Text="{Binding Username}" TextColor="White" FontSize="18" />
+                            <Label Text="{Binding Email}" TextColor="White" FontSize="14" />
+                        </StackLayout>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
 
-
-        <!-- Поле для поиска файлов -->
+        <!-- Поле для поиска файла -->
         <Entry x:Name="FileSearchEntry"
                Placeholder="Введите название файла"
                TextColor="Black"
-               BackgroundColor="White" />
+               BackgroundColor="White"
+               Margin="0,20,0,0"
+               HeightRequest="50"/>
+
+        <!-- Кнопка для поиска файлов -->
         <Button Text="Найти файлы"
                 Clicked="OnSearchFileButtonClicked"
                 BackgroundColor="#FF0055"
-                TextColor="White" />
-        <ListView ItemsSource="{Binding Files}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextCell Text="{Binding Name}"
-                              Detail="{Binding Extension}" />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                TextColor="White"
+                HeightRequest="50"
+                Margin="0,10,0,10"/>
+
+        <!-- StackLayout для отображения найденных файлов -->
+        <StackLayout x:Name="FilesStackLayout" BackgroundColor="#333333" Padding="10" Margin="0,5,0,5">
+            <!-- Здесь будут добавляться метки для найденных файлов -->
+         
+            <!-- Добавлены отступы между названиями файлов -->
+        </StackLayout>
     </StackLayout>
 </ContentPage>
