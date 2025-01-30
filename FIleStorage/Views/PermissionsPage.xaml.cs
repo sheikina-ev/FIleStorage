@@ -1,10 +1,13 @@
-using FIleStorage.Utils;
+using FIleStorage.Models;
 using Microsoft.Maui.Controls;
 using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Diagnostics;
+using FIleStorage.Utils;
 
 namespace FIleStorage.Views
 {
@@ -12,6 +15,10 @@ namespace FIleStorage.Views
     {
         private readonly string _token;
         private readonly HttpClient _httpClient;
+
+        // Списки для предоставленных и полученных прав
+        public List<AccessRight> PermsGiven { get; set; } = new List<AccessRight>();
+        public List<AccessRight> PermsReceived { get; set; } = new List<AccessRight>();
 
         public PermissionsPage()
         {
@@ -24,6 +31,73 @@ namespace FIleStorage.Views
             _httpClient = new HttpClient();
             _httpClient.DefaultRequestHeaders.Authorization =
                 new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _token);
+
+            // Устанавливаем привязку данных
+            BindingContext = this;
+
+            // Загружаем данные о правах доступа
+            LoadPermissions();
+        }
+
+        // Загрузка предоставленных и полученных прав
+        private async Task LoadPermissions()
+        {
+            await GetProvidedPermissions();
+            await GetReceivedPermissions();
+        }
+
+        // Получение предоставленных прав
+        private async Task GetProvidedPermissions()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("http://course-project-4/api/access_rights/perms");
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+                    var permissions = JsonSerializer.Deserialize<List<AccessRight>>(jsonResponse);
+                    PermsGiven = permissions;
+                    OnPropertyChanged(nameof(PermsGiven)); // Уведомление привязки
+
+                    Debug.WriteLine($"PermsGiven Loaded: {permissions.Count} items.");
+                }
+                else
+                {
+                    Debug.WriteLine("Error loading provided permissions.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error: {ex.Message}");
+                await DisplayAlert("Ошибка", "Ошибка при загрузке предоставленных прав доступа.", "OK");
+            }
+        }
+
+        // Получение полученных прав
+        private async Task GetReceivedPermissions()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("http://course-project-4/api/access_rights/perms/my");
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+                    var permissions = JsonSerializer.Deserialize<List<AccessRight>>(jsonResponse);
+                    PermsReceived = permissions;
+                    OnPropertyChanged(nameof(PermsReceived)); // Уведомление привязки
+
+                    Debug.WriteLine($"PermsReceived Loaded: {permissions.Count} items.");
+                }
+                else
+                {
+                    Debug.WriteLine("Error loading received permissions.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error: {ex.Message}");
+                await DisplayAlert("Ошибка", "Ошибка при загрузке полученных прав доступа.", "OK");
+            }
         }
 
         // Метод для добавления доступа к файлу

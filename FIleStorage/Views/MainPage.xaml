@@ -39,10 +39,8 @@
             Clicked="OnStartButtonClicked"
             ContentLayout="Left, 10">
 
-            <!-- Иконка внутри кнопки -->
-            <Button.ImageSource>
-                <FileImageSource File="icon.png" />
-            </Button.ImageSource>
+         
+           
         </Button>
     </StackLayout>
 </ContentPage>

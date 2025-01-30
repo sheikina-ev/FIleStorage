@@ -26,16 +26,25 @@
 
             <!-- Заголовок -->
             <Label 
+               
                    x:Name="UsernameLabel"
                    FontSize="24"
                    TextColor="White"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"
                    Grid.Row="2"
-                   Margin="0,10,0,0" />
+                   Margin="0,0,0,0" />
 
             <!-- Поля для данных пользователя -->
-            <StackLayout Grid.Row="4" Spacing="15">
+            <StackLayout Grid.Row="4" Spacing="15" >
+                <!-- Текст "Редактировать данные" -->
+                <Label Text="Редактировать данные"
+                   FontSize="16"
+                   TextColor="White"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   Grid.Row="3"
+                   />
                 <!-- Поле Имя -->
                 <Frame BackgroundColor="#333333" CornerRadius="10" Padding="0" HasShadow="False" HeightRequest="50">
                     <Grid>
