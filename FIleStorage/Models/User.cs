@@ -9,7 +9,6 @@ namespace FIleStorage.Models
 {
     public class User
     {
-        // Класс описывающий таблицу users
         [JsonPropertyName("id")]
         public int Id { get; set; }
 

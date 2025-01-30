@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FIleStorage.Views.SearchPage"
-             Title="Поиск">
+             Title="Поиск"
+             BackgroundColor="#1E1E1E">
 
     <StackLayout Padding="20">
         <!-- Поле для поиска пользователей -->
@@ -17,29 +18,30 @@
         <ListView ItemsSource="{Binding Users}" ItemSelected="OnUserSelected">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding Username}"
-                      Detail="{Binding Email}" />
+                    <TextCell Text="{Binding Username}" TextColor="White"
+                              Detail="{Binding Email}" DetailColor="White"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
 
-
-        <!-- Поле для поиска файлов -->
+        <!-- Поле для поиска файла -->
         <Entry x:Name="FileSearchEntry"
                Placeholder="Введите название файла"
                TextColor="Black"
-               BackgroundColor="White" />
+               BackgroundColor="White"
+               Margin="0,20,0,0"
+               HeightRequest="50"/>
+
+        <!-- Кнопка для поиска файлов -->
         <Button Text="Найти файлы"
                 Clicked="OnSearchFileButtonClicked"
                 BackgroundColor="#FF0055"
-                TextColor="White" />
-        <ListView ItemsSource="{Binding Files}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextCell Text="{Binding Name}"
-                              Detail="{Binding Extension}" />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                TextColor="White"
+                HeightRequest="50" />
+
+        <!-- StackLayout для отображения найденных файлов -->
+        <StackLayout x:Name="FilesStackLayout" Padding="10, 20, 10, 10">
+            <!-- Здесь будут добавляться метки для найденных файлов -->
+        </StackLayout>
     </StackLayout>
 </ContentPage>

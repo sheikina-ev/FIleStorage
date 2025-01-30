@@ -12,14 +12,12 @@ namespace FIleStorage.Views
 {
     public partial class SearchPage : ContentPage
     {
-        private readonly User _currentUser; // Текущий пользователь
-        private readonly string _token;    // Токен авторизации
+        private readonly User _currentUser; 
+        private readonly string _token;   
         private readonly HttpClient _httpClient;
 
-        // Список пользователей для поиска
         public ObservableCollection<User> Users { get; set; } = new ObservableCollection<User>();
 
-        // Список файлов текущего пользователя
         public ObservableCollection<File> Files { get; set; } = new ObservableCollection<File>();
 
         public SearchPage()
@@ -30,10 +28,9 @@ namespace FIleStorage.Views
             _token = UserData.Token;
             _httpClient = new HttpClient();
 
-            BindingContext = this; // Устанавливаем контекст данных
+            BindingContext = this; 
         }
 
-        // Поиск пользователей по имени
         private async void OnSearchButtonClicked(object sender, EventArgs e)
         {
             try
@@ -49,11 +46,9 @@ namespace FIleStorage.Views
                 var jsonContent = JsonSerializer.Serialize(requestBody);
                 var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-                // Устанавливаем заголовок с токеном
                 _httpClient.DefaultRequestHeaders.Authorization =
                     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _token);
 
-                // Запрос на поиск пользователя по имени
                 var response = await _httpClient.PostAsync("http://course-project-4/api/search/user", content);
 
                 if (response.IsSuccessStatusCode)
@@ -89,7 +84,6 @@ namespace FIleStorage.Views
         {
             if (e.SelectedItem is User selectedUser)
             {
-                // Формируем строку с информацией о пользователе
                 var userInfo =
                     $"Фамилия: {selectedUser.Surname}\n" +
                     $"Имя: {selectedUser.Name}\n" +
@@ -97,16 +91,13 @@ namespace FIleStorage.Views
                     $"Email: {selectedUser.Email}\n" +
                     $"Телефон: {selectedUser.Phone}";
 
-                // Отображаем модальное окно
                 await DisplayAlert("Информация о пользователе", userInfo, "OK");
 
-                // Снимаем выделение
                 ((ListView)sender).SelectedItem = null;
             }
         }
 
 
-        // Поиск файлов у текущего пользователя
         private async void OnSearchFileButtonClicked(object sender, EventArgs e)
         {
             try
@@ -122,33 +113,59 @@ namespace FIleStorage.Views
                 var jsonContent = JsonSerializer.Serialize(requestBody);
                 var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
+                // Установка токена авторизации
                 _httpClient.DefaultRequestHeaders.Authorization =
                     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _token);
 
-                var response = await _httpClient.PostAsync($"http://course-project-4/api/search/{_currentUser.Id}/file", content);
+                var response = await _httpClient.PostAsync($"http://course-project-4/api/search/file", content);
 
+                // Получение ответа
                 var responseContent = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
+                    // Десериализация ответа
                     var result = JsonSerializer.Deserialize<Dictionary<string, List<File>>>(responseContent);
+
+                    // Очищаем StackLayout перед добавлением новых файлов
+                    FilesStackLayout.Children.Clear();
 
                     if (result != null && result.TryGetValue("files", out var files) && files.Count > 0)
                     {
-                        Files.Clear();
                         foreach (var file in files)
                         {
-                            Files.Add(file);
+                            Console.WriteLine("files", files);
+                            // Создаем новый Label для каждого найденного файла
+                            var fileLabel = new Label
+                            {
+                                Text = $"{file.Name}.{file.Extension}",
+
+                                TextColor = Colors.White,
+                                FontSize = 18,
+                                Margin = new Thickness(0, 5)
+                            };
+
+                            // Добавляем Label в StackLayout
+                            FilesStackLayout.Children.Add(fileLabel);
                         }
                     }
                     else
                     {
-                        await DisplayAlert("Результаты поиска", "Файлы не найдены.", "OK");
+                        // Добавляем сообщение, что файлы не найдены
+                        var noFilesLabel = new Label
+                        {
+                            Text = "Файлы не найдены.",
+                            TextColor = Colors.White,
+                            FontSize = 18,
+                            Margin = new Thickness(0, 5)
+                        };
+
+                        FilesStackLayout.Children.Add(noFilesLabel);
                     }
                 }
                 else
                 {
-                    await DisplayAlert("Ошибка", $"API вернул ошибку: {response.StatusCode} - {responseContent}", "OK");
+                    await DisplayAlert("Ошибка", "Не удалось получить файлы.", "OK");
                 }
             }
             catch (Exception ex)
@@ -156,8 +173,6 @@ namespace FIleStorage.Views
                 await DisplayAlert("Ошибка", $"Произошла ошибка: {ex.Message}", "OK");
             }
         }
-
-
 
     }
 }
