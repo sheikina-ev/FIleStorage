@@ -37,8 +37,8 @@
 
                 <HorizontalStackLayout Spacing="-15" VerticalOptions="Center" HorizontalOptions="End">
                     <ImageButton Source="edit_icon.png"
-                                 HeightRequest="20"
-                                 WidthRequest="20"
+                                 HeightRequest="10"
+                                 WidthRequest="10"
                                  BackgroundColor="Transparent" />
                     <Button Text="Изменить"
                             FontSize="14"

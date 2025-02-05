@@ -82,8 +82,8 @@ namespace FIleStorage.Views
                     var fileButton = new ImageButton
                     {
                         Source = "file_icon.png",
-                        WidthRequest = 80,
-                        HeightRequest = 80,
+                        WidthRequest = 20,
+                        HeightRequest = 20,
                         BackgroundColor = Colors.Transparent,
                         HorizontalOptions = LayoutOptions.Center,
                         VerticalOptions = LayoutOptions.Center
