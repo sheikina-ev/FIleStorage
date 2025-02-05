@@ -2,17 +2,43 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FIleStorage.Views.FilesPage"
              BackgroundColor="#1E1E1E"
-             Title="Ваши файлы">
+           >
 
-    <StackLayout>
+    <StackLayout Padding="20">
+        <Label Text="Ваши файлы"
+               FontSize="24"
+               TextColor="White"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               Margin="0,0,0,20" />
+
+        <Button Text="Загрузить новый файл"
+                FontSize="18"
+                BackgroundColor="LightGreen"
+                TextColor="White"
+                HorizontalOptions="Center"
+                VerticalOptions="Start"
+                Clicked="OnUploadFileClicked" />
+        <!-- Добавленная кнопка -->
+
         <CollectionView x:Name="FilesCollectionView" SelectionMode="Single" SelectionChanged="OnFileSelected">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Padding="10" ColumnDefinitions="*, Auto">
+                    <Grid Padding="10" ColumnDefinitions="*, Auto, Auto">
                         <Label Text="{Binding Name}" 
                                FontSize="16"
                                TextColor="White"
                                VerticalOptions="Center" />
+
+                        <Button Text="⬇ Скачать"
+                                FontSize="14"
+                                BackgroundColor="Transparent"
+                                TextColor="LightBlue"
+                                CommandParameter="{Binding .}"
+                                Clicked="OnDownloadFileClicked"
+                                HorizontalOptions="End"
+                                Margin="0, 0, 30, 0"
+                                VerticalOptions="Center"/>
 
                         <Button Text="✖"
                                 FontSize="14"
@@ -26,8 +52,6 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
-       
     </StackLayout>
 
 </ContentPage>
