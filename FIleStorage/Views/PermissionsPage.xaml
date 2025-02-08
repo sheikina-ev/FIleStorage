@@ -7,14 +7,12 @@
 
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="25">
-            <!-- Заголовок -->
             <Label Text="Управление правами доступа"
                    FontSize="20"
                    FontAttributes="Bold"
                    TextColor="White"
                    HorizontalTextAlignment="Center" />
 
-            <!-- Поле для ввода имени пользователя -->
             <Frame BackgroundColor="#2C2C2C"
                    CornerRadius="20"
                    Padding="10"
@@ -27,7 +25,6 @@
                        FontSize="14" />
             </Frame>
 
-            <!-- Поле для ввода ID файла -->
             <Frame BackgroundColor="#2C2C2C"
                    CornerRadius="20"
                    Padding="10"
@@ -41,7 +38,6 @@
                        FontSize="14" />
             </Frame>
 
-            <!-- Кнопка "Добавить доступ" -->
             <Button Text="Добавить доступ"
                     FontSize="14"
                     FontAttributes="Bold"
@@ -57,7 +53,6 @@
                 </Button.Shadow>
             </Button>
 
-            <!-- Кнопка "Удалить доступ" -->
             <Button Text="Удалить доступ"
                     FontSize="14"
                     FontAttributes="Bold"
@@ -79,7 +74,6 @@
                    TextColor="White"
                    HorizontalTextAlignment="Center" />
 
-            <!-- Список предоставленных прав -->
             <ListView ItemsSource="{Binding PermsGiven}"
                       BackgroundColor="#2C2C2C"
                       SeparatorVisibility="None">
@@ -87,7 +81,6 @@
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Padding="10">
-                                <!-- Отображаем только FileId и UserId -->
                                 <Label Text="{Binding FileId}" TextColor="White" FontSize="16"/>
                                 <Label Text="{Binding UserId}" TextColor="Gray" FontSize="14"/>
                             </StackLayout>
@@ -102,7 +95,6 @@
                    TextColor="White"
                    HorizontalTextAlignment="Center" />
 
-            <!-- Список полученных прав -->
             <ListView ItemsSource="{Binding PermsReceived}"
                       BackgroundColor="#2C2C2C"
                       SeparatorVisibility="None">
@@ -110,7 +102,6 @@
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Padding="10">
-                                <!-- Отображаем только FileId и UserId -->
                                 <Label Text="{Binding FileId}" TextColor="White" FontSize="16"/>
                                 <Label Text="{Binding UserId}" TextColor="Gray" FontSize="14"/>
                             </StackLayout>

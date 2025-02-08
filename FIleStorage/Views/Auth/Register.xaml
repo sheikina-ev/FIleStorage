@@ -9,29 +9,20 @@
         <Grid Padding="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="70" />
-                <!-- Отступ для логотипа -->
                 <RowDefinition Height="Auto" />
-                <!-- Логотип -->
                 <RowDefinition Height="Auto" />
-                <!-- Текст Регистрация аккаунта -->
                 <RowDefinition Height="73" />
-                <!-- Отступ перед полями ввода -->
                 <RowDefinition Height="Auto" />
-                <!-- Поля ввода -->
                 <RowDefinition Height="Auto" />
-                <!-- Кнопка регистрации -->
                 <RowDefinition Height="Auto" />
-                <!-- Ссылка на страницу входа -->
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <!-- Логотип -->
             <Image Source="icon_placeholder.png"
                    HeightRequest="80"
                    HorizontalOptions="Center"
                    Grid.Row="1" />
 
-            <!-- Текст Регистрация аккаунта -->
             <Label Text="Регистрация аккаунта"
                    FontSize="24"
                    TextColor="White"
@@ -40,9 +31,7 @@
                    Grid.Row="2"
                    Margin="0,10,0,0" />
 
-            <!-- Поля для Фамилия, Имя, Имя пользователя, Пароль, Email и Телефон -->
             <StackLayout Grid.Row="4" Spacing="15">
-                <!-- Поле Фамилия -->
                 <Frame BackgroundColor="#333333" CornerRadius="10" Padding="0" HasShadow="False" HeightRequest="50">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -64,7 +53,6 @@
                     </Grid>
                 </Frame>
 
-                <!-- Поле Имя -->
                 <Frame BackgroundColor="#333333" CornerRadius="10" Padding="0" HasShadow="False" HeightRequest="50">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -86,7 +74,6 @@
                     </Grid>
                 </Frame>
 
-                <!-- Поле Имя пользователя -->
                 <Frame BackgroundColor="#333333" CornerRadius="10" Padding="0" HasShadow="False" HeightRequest="50">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -108,7 +95,6 @@
                     </Grid>
                 </Frame>
 
-                <!-- Поле Пароль -->
                 <Frame BackgroundColor="#333333" CornerRadius="10" Padding="0" HasShadow="False" HeightRequest="50">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -131,7 +117,6 @@
                     </Grid>
                 </Frame>
 
-                <!-- Поле Email -->
                 <Frame BackgroundColor="#333333" CornerRadius="10" Padding="0" HasShadow="False" HeightRequest="50">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -154,7 +139,6 @@
                     </Grid>
                 </Frame>
 
-                <!-- Поле Телефон -->
                 <Frame BackgroundColor="#333333" CornerRadius="10" Padding="0" HasShadow="False" HeightRequest="50">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -178,7 +162,6 @@
                 </Frame>
             </StackLayout>
 
-            <!-- Кнопка регистрации -->
             <Button Grid.Row="5"
                     Text="Зарегистрироваться"
                     BackgroundColor="#FF0055"
@@ -189,7 +172,6 @@
                     Margin="0,20,0,0"
                     Clicked="OnRegisterButtonClicked" />
 
-            <!-- Ссылка на страницу входа -->
             <Label Grid.Row="6"
                    Text="Уже есть аккаунт? Войти"
                    TextColor="#FF0055"

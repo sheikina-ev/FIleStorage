@@ -18,7 +18,6 @@ namespace FIleStorage.Views.Auth
         private async void OnLoginTapped(object sender, EventArgs e)
         {
             // Переход на страницу входа
-            //await Navigation.PushAsync(new Login());
             await Shell.Current.GoToAsync("//LoginPage");
 
         }

@@ -140,7 +140,6 @@ namespace FIleStorage.Views
                 await DisplayAlert("Ошибка", "Произошла ошибка при скачивании файла.", "OK");
             }
         }
-
         // Обработчик для кнопки загрузки нового файла
         private async void OnUploadFileClicked(object sender, EventArgs e)
         {
@@ -204,3 +203,4 @@ namespace FIleStorage.Views
         }
     }
 }
+   

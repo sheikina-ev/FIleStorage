@@ -12,16 +12,9 @@
                HorizontalOptions="Center"
                Margin="0,0,0,20" />
 
-        <Button Text="Загрузить новый файл"
-                FontSize="18"
-                BackgroundColor="LightGreen"
-                TextColor="White"
-                HorizontalOptions="Center"
-                VerticalOptions="Start"
-                Clicked="OnUploadFileClicked" />
-        <!-- Добавленная кнопка -->
+  
 
-        <CollectionView x:Name="FilesCollectionView" SelectionMode="Single" SelectionChanged="OnFileSelected">
+        <CollectionView x:Name="FilesCollectionView" SelectionMode="Single" SelectionChanged="OnFileSelected" >
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid Padding="10" ColumnDefinitions="*, Auto, Auto">
@@ -52,6 +45,15 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        <Button Text="Загрузить новый файл"
+              FontSize="14"
+                Margin="10,20,0,0"
+                BackgroundColor="#FF0055"
+              TextColor="White"
+              HorizontalOptions="Center"
+              VerticalOptions="Start"
+              Clicked="OnUploadFileClicked" />
+        <!-- Добавленная кнопка -->
     </StackLayout>
 
 </ContentPage>

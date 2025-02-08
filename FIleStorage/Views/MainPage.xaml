@@ -5,30 +5,25 @@
                BackgroundColor="#121212">
 
     <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Spacing="20">
-
-        <!--  -->
         <Image Source="tree_illustration.png" 
                WidthRequest="200" 
                HeightRequest="200" 
                Aspect="AspectFit"
                HorizontalOptions="Center" />
-
-        <!-- Текст заголовка -->
+        
         <Label Text="Ваши данные в&#xA;надёжных руках"
                FontSize="36"
                TextColor="White"
                HorizontalOptions="Center"
                FontAttributes="Bold"
                HorizontalTextAlignment="Center" />
-
-        <!-- Текст подзаголовка -->
+        
         <Label Text="Ваш ключ к эффективному&#xA;управлению информацией."
                FontSize="20"
                TextColor="Gray"
                HorizontalOptions="Center"
                HorizontalTextAlignment="Center" />
-
-        <!-- Кнопка Начать -->
+        
         <Button Text="НАЧАТЬ"
             BackgroundColor="#7A3EF8"
             TextColor="White"
@@ -38,9 +33,6 @@
             HeightRequest="50"
             Clicked="OnStartButtonClicked"
             ContentLayout="Left, 10">
-
-         
-           
         </Button>
     </StackLayout>
 </ContentPage>

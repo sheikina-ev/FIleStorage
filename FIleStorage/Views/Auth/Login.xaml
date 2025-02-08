@@ -8,29 +8,20 @@
         <Grid Padding="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="100" />
-                <!-- Отступ для логотипа -->
                 <RowDefinition Height="Auto" />
-                <!-- Логотип -->
                 <RowDefinition Height="Auto" />
-                <!-- Текст Вход в аккаунт -->
                 <RowDefinition Height="73" />
-                <!-- Отступ перед полями ввода -->
                 <RowDefinition Height="Auto" />
-                <!-- Поля ввода -->
                 <RowDefinition Height="Auto" />
-                <!-- Кнопка Вход -->
                 <RowDefinition Height="Auto" />
-                <!-- Ссылка на регистрацию -->
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <!-- Логотип -->
             <Image Source="icon_placeholder.png"
                    HeightRequest="80"
                    HorizontalOptions="Center"
                    Grid.Row="1" />
 
-            <!-- Текст Вход в аккаунт -->
             <Label Text="Вход в аккаунт"
                    FontSize="24"
                    TextColor="White"
@@ -39,9 +30,7 @@
                    Grid.Row="2"
                    Margin="0,10,0,0" />
 
-            <!-- Поля для имени и пароля -->
             <StackLayout Grid.Row="4" Spacing="15">
-                <!-- Поле Имя пользователя -->
                 <Frame BackgroundColor="#333333" CornerRadius="10" Padding="0" HasShadow="False" HeightRequest="50">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -63,7 +52,6 @@
                     </Grid>
                 </Frame>
 
-                <!-- Поле Пароль -->
                 <Frame BackgroundColor="#333333" CornerRadius="10" Padding="0" HasShadow="False" HeightRequest="50">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -87,7 +75,6 @@
                 </Frame>
             </StackLayout>
 
-            <!-- Кнопка входа -->
             <Button Grid.Row="5"
                     Text="Вход"
                     BackgroundColor="#FF0055"
@@ -98,7 +85,6 @@
                     Margin="0,20,0,0"
                     Clicked="OnLoginButtonClicked" />
 
-            <!-- Ссылка на страницу регистрации -->
             <Label Grid.Row="6"
                    Text="Нет аккаунта? Зарегистрироваться"
                    TextColor="#FF0055"

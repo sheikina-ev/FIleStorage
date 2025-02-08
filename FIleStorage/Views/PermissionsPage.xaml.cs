@@ -51,7 +51,7 @@ namespace FIleStorage.Views
         {
             try
             {
-                var response = await _httpClient.GetAsync("http://course-project-4/api/access_rights/perms");
+                var response = await _httpClient.GetAsync("http://course-project-4/api/perms");
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
@@ -78,7 +78,7 @@ namespace FIleStorage.Views
         {
             try
             {
-                var response = await _httpClient.GetAsync("http://course-project-4/api/access_rights/perms/my");
+                var response = await _httpClient.GetAsync("http://course-project-4/api/perms/my");
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
